@@ -3,7 +3,7 @@ line-length = 119
 target-version = ["py311", "py312"]  # adaptez à votre version
 include = "\\.pyi?$"
 exclude = """
-/(\n  \\.venv\n  | \\.git\n  | __pycache__\n  | build\n  | dist\n)/
+/(\n  \\.env_p9\n  | \\.git\n  | __pycache__\n  | build\n  | dist\n)/
 """
 
 [tool.isort]
