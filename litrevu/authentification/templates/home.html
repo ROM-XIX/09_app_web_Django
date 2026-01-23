@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Accueil | Litrevu{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <h1>Accueil</h1>
+    <p>
+      Bonjour <strong>{{ user.get_username }}</strong> 👋
+    </p>
+    <p class="muted">
+      Cette page est protégée avec <code>@login_required</code>. Si vous vous déconnectez,
+      vous serez redirigé·e vers la page de connexion.
+    </p>
+
+    <form method="post" action="{% url 'logout' %}" style="margin-top: 1rem;">
+      {% csrf_token %}
+      <button type="submit">Se déconnecter</button>
+    </form>
+  </div>
+{% endblock %}
