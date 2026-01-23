@@ -8,12 +8,13 @@ Cette app fournit :
 On utilise le système d'authentification standard de Django.
 """
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 
-from .forms import StyledAuthenticationForm
+from .forms import SignupForm, StyledAuthenticationForm
 
 
 @login_required
@@ -33,3 +34,16 @@ class UserLogoutView(LogoutView):
     """Déconnexion puis redirection vers la page de connexion."""
 
     next_page = reverse_lazy("login")
+
+
+def signup(request):
+    if request.method == "POST":
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Compte créé avec succès. Vous pouvez vous connecter.")
+            return redirect("login")
+    else:
+        form = SignupForm()
+
+    return render(request, "signup.html", {"form": form})

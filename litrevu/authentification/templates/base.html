@@ -17,6 +17,7 @@
             <span class="muted">Connecté·e : <strong>{{ user.get_username }}</strong></span>
           {% else %}
             <a class="btn" href="{% url 'login' %}">Connexion</a>
+            <a class="btn btn-secondary" href="{% url 'signup' %}">Créer un compte</a>
           {% endif %}
         </nav>
       </div>
