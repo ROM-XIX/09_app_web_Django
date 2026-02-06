@@ -1,3 +1,4 @@
+# /P_09/litrevu/authentification/views.py
 """Vues de l'app `authentification`.
 
 Cette app fournit :
@@ -9,18 +10,15 @@ On utilise le système d'authentification standard de Django.
 """
 
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth import logout
+
+# from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView  # , LogoutView
 from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
 
 from .forms import SignupForm, StyledAuthenticationForm
 
-
-@login_required
-def home(request):
-    """Page d'exemple protégée : accessible uniquement aux utilisateurs connectés."""
-    return render(request, "home.html")
+# from django.urls import reverse_lazy
 
 
 class UserLoginView(LoginView):
@@ -30,10 +28,14 @@ class UserLoginView(LoginView):
     authentication_form = StyledAuthenticationForm
 
 
-class UserLogoutView(LogoutView):
-    """Déconnexion puis redirection vers la page de connexion."""
+# class UserLogoutView(LogoutView):
+#     """Déconnexion puis redirection vers la page de connexion."""
+#     next_page = reverse_lazy("login")
 
-    next_page = reverse_lazy("login")
+
+def logout_view(request):
+    logout(request)
+    return redirect("login")
 
 
 def signup(request):

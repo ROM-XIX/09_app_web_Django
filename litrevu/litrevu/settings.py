@@ -122,9 +122,10 @@ STATIC_URL = "static/"
 # - LOGIN_URL : route de connexion (name="login")
 # - LOGIN_REDIRECT_URL : redirection après une connexion réussie
 # - LOGOUT_REDIRECT_URL : redirection après déconnexion
-LOGIN_URL = "/login/"
-LOGIN_REDIRECT_URL = "/home/"
-LOGOUT_REDIRECT_URL = "/login/"
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "feed"
+LOGOUT_REDIRECT_URL = "login"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

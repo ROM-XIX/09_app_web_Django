@@ -1,3 +1,6 @@
+{% extends "gestionlivre/base.html" %}
+
+{% block content %}
 <h1>Créer une critique</h1>
 
 <p><strong>Vous répondez à :</strong> {{ ticket.title }} — par {{ ticket.user }}</p>
@@ -8,3 +11,4 @@
   {{ form.as_p }}
   <button type="submit">Envoyer</button>
 </form>
+{% endblock %}
