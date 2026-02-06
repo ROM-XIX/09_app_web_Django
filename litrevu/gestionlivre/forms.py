@@ -31,3 +31,10 @@ class TicketReviewForm(forms.Form):
 
     def clean_rating(self):
         return int(self.cleaned_data["rating"])
+
+
+class FollowUserForm(forms.Form):
+    username = forms.CharField(
+        max_length=150,
+        label="Nom d'utilisateur",
+    )

@@ -1,0 +1,47 @@
+{% extends "gestionlivre/base.html" %}
+
+{% block content %}
+<h1>Abonnements</h1>
+
+{% if messages %}
+  <ul>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+<h2>Suivre d'autres utilisateurs</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Envoyer</button>
+</form>
+
+<hr>
+
+<h2>Vous suivez</h2>
+{% if following %}
+  <ul>
+    {% for f in following %}
+      <li>
+        {{ f.followed_user.username }}
+        — <a href="{% url 'unfollow' f.followed_user.id %}">Désabonner</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Vous ne suivez personne pour le moment.</p>
+{% endif %}
+
+<h2>Vos abonnés</h2>
+{% if followers %}
+  <ul>
+    {% for f in followers %}
+      <li>{{ f.user.username }}</li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Personne ne vous suit pour le moment.</p>
+{% endif %}
+{% endblock %}

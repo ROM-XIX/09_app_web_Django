@@ -2,12 +2,14 @@
 # Create your views here.
 from itertools import chain
 
+from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.db.models import CharField, Value
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import ReviewForm, TicketForm, TicketReviewForm
+from .forms import FollowUserForm, ReviewForm, TicketForm, TicketReviewForm
 from .models import Review, Ticket, UserFollows
 
 
@@ -116,3 +118,82 @@ def feed(request):
 
 def home_redirect(request):
     return redirect("feed")
+
+
+@login_required
+def posts(request):
+    """Affiche les tickets + reviews de l'utilisateur connecté (triés)."""
+    tickets = (
+        Ticket.objects.filter(user=request.user)
+        .select_related("user")
+        .annotate(content_type=Value("TICKET", output_field=CharField()))
+    )
+
+    reviews = (
+        Review.objects.filter(user=request.user)
+        .select_related("user", "ticket", "ticket__user")
+        .annotate(content_type=Value("REVIEW", output_field=CharField()))
+    )
+
+    posts = sorted(
+        chain(tickets, reviews),
+        key=lambda p: p.time_created,
+        reverse=True,
+    )
+
+    return render(request, "gestionlivre/posts.html", {"posts": posts})
+
+
+User = get_user_model()
+
+
+@login_required
+def subscriptions(request):
+    if request.method == "POST":
+        form = FollowUserForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data["username"].strip()
+            try:
+                user_to_follow = User.objects.get(username=username)
+            except User.DoesNotExist:
+                messages.error(request, "Cet utilisateur n'existe pas.")
+                return redirect("subscriptions")
+
+            if user_to_follow == request.user:
+                messages.error(request, "Vous ne pouvez pas vous suivre vous-même.")
+                return redirect("subscriptions")
+
+            # éviter doublon (unique_together protège aussi, mais on fait propre)
+            exists = UserFollows.objects.filter(user=request.user, followed_user=user_to_follow).exists()
+            if exists:
+                messages.info(request, "Vous suivez déjà cet utilisateur.")
+                return redirect("subscriptions")
+
+            UserFollows.objects.create(user=request.user, followed_user=user_to_follow)
+            messages.success(request, f"Vous suivez maintenant {user_to_follow.username}.")
+            return redirect("subscriptions")
+    else:
+        form = FollowUserForm()
+
+    following = (
+        UserFollows.objects.filter(user=request.user)
+        .select_related("followed_user")
+        .order_by("followed_user__username")
+    )
+    followers = (
+        UserFollows.objects.filter(followed_user=request.user).select_related("user").order_by("user__username")
+    )
+
+    return render(
+        request,
+        "gestionlivre/subscriptions.html",
+        {"following": following, "followers": followers, "form": form},
+    )
+
+
+@login_required
+def unfollow(request, followed_user_id):
+    follow = get_object_or_404(UserFollows, user=request.user, followed_user_id=followed_user_id)
+    follow.delete()
+    messages.success(request, "Désabonnement effectué.")
+    return redirect("subscriptions")

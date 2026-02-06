@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>LITReview</title>
+</head>
+<body>
+
+<header>
+  <h2>LITReview</h2>
+  <nav>
+    <a href="{% url 'feed' %}">Flux</a> |
+    <a href="{% url 'posts' %}">Posts</a> |
+    <a href="{% url 'subscriptions' %}">Abonnements</a> |
+    <a href="{% url 'logout' %}">Se déconnecter</a>
+  </nav>
+  <hr>
+</header>
+
+<main>
+  {% block content %}{% endblock %}
+</main>
+
+</body>
+</html>
