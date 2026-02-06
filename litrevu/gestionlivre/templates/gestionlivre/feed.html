@@ -1,0 +1,22 @@
+<h1>Flux</h1>
+
+<nav>
+  <a href="{% url 'feed' %}">Flux</a> |
+  <a href="{% url 'ticket_create' %}">Demander une critique</a> |
+  <a href="{% url 'ticket_and_review_create' %}">Créer une critique</a>
+</nav>
+
+<hr>
+
+{% if posts %}
+  {% for post in posts %}
+    {% if post.content_type == "TICKET" %}
+      {% include "gestionlivre/_ticket_snippet.html" with ticket=post %}
+    {% elif post.content_type == "REVIEW" %}
+      {% include "gestionlivre/_review_snippet.html" with review=post %}
+    {% endif %}
+    <hr>
+  {% endfor %}
+{% else %}
+  <p>Aucun post pour le moment.</p>
+{% endif %}

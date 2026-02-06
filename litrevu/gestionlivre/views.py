@@ -1,11 +1,14 @@
 # litrevu/gestionlivre/views.py
 # Create your views here.
+from itertools import chain
+
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
+from django.db.models import CharField, Value
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import ReviewForm, TicketForm, TicketReviewForm
-from .models import Review, Ticket
+from .models import Review, Ticket, UserFollows
 
 
 @login_required
@@ -73,3 +76,43 @@ def ticket_and_review_create(request):
         form = TicketReviewForm()
 
     return render(request, "gestionlivre/ticket_review_form.html", {"form": form})
+
+
+def get_followed_user_ids(user):
+    return UserFollows.objects.filter(user=user).values_list("followed_user_id", flat=True)
+
+
+@login_required
+def feed(request):
+    followed_user_ids = list(get_followed_user_ids(request.user))
+
+    # Tickets visibles = ceux des suivis + les siens
+    tickets = (
+        Ticket.objects.filter(user_id__in=followed_user_ids + [request.user.id])
+        .select_related("user")
+        .annotate(content_type=Value("TICKET", output_field=CharField()))
+    )
+
+    # Reviews visibles =
+    # - reviews des suivis + les siennes
+    # - + reviews en réponse à TES tickets (même si l'auteur n'est pas suivi)
+    reviews = Review.objects.filter(user_id__in=followed_user_ids + [request.user.id]) | Review.objects.filter(
+        ticket__user=request.user
+    )
+    reviews = (
+        reviews.distinct()
+        .select_related("user", "ticket", "ticket__user")
+        .annotate(content_type=Value("REVIEW", output_field=CharField()))
+    )
+
+    posts = sorted(
+        chain(tickets, reviews),
+        key=lambda p: p.time_created,
+        reverse=True,
+    )
+
+    return render(request, "gestionlivre/feed.html", {"posts": posts})
+
+
+def home_redirect(request):
+    return redirect("feed")

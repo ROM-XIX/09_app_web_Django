@@ -1,0 +1,13 @@
+<div>
+  <p><strong>Ticket</strong> — {{ ticket.user.username }} — {{ ticket.time_created|date:"d/m/Y H:i" }}</p>
+  <p><strong>{{ ticket.title }}</strong></p>
+  {% if ticket.description %}<p>{{ ticket.description }}</p>{% endif %}
+
+  {% if ticket.image %}
+    <p><img src="{{ ticket.image.url }}" alt="image du ticket" style="max-width: 250px;"></p>
+  {% endif %}
+
+  <p>
+    <a href="{% url 'review_create_for_ticket' ticket.id %}">Créer une critique</a>
+  </p>
+</div>

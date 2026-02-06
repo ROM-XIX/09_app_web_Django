@@ -1,0 +1,13 @@
+<div>
+  <p><strong>Critique</strong> — {{ review.user.username }} — {{ review.time_created|date:"d/m/Y H:i" }}</p>
+  <p><strong>{{ review.headline }}</strong> — {{ review.rating }}/5</p>
+  {% if review.body %}<p>{{ review.body }}</p>{% endif %}
+
+  <div style="margin-top: 8px; padding-left: 12px; border-left: 3px solid #ddd;">
+    <p><em>En réponse à :</em> {{ review.ticket.user.username }} — <strong>{{ review.ticket.title }}</strong></p>
+    {% if review.ticket.description %}<p>{{ review.ticket.description }}</p>{% endif %}
+    {% if review.ticket.image %}
+      <p><img src="{{ review.ticket.image.url }}" alt="image du ticket" style="max-width: 200px;"></p>
+    {% endif %}
+  </div>
+</div>
