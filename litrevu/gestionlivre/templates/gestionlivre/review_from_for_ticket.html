@@ -1,0 +1,10 @@
+<h1>Créer une critique</h1>
+
+<p><strong>Vous répondez à :</strong> {{ ticket.title }} — par {{ ticket.user }}</p>
+<p>{{ ticket.description }}</p>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Envoyer</button>
+</form>

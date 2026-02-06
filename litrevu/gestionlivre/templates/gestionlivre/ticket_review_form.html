@@ -1,0 +1,17 @@
+<h1>Créer une critique (avec ticket)</h1>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <h2>Ticket</h2>
+  <p>{{ form.title.label_tag }} {{ form.title }}</p>
+  <p>{{ form.description.label_tag }} {{ form.description }}</p>
+  <p>{{ form.image.label_tag }} {{ form.image }}</p>
+
+  <h2>Critique</h2>
+  <p>{{ form.headline.label_tag }} {{ form.headline }}</p>
+  <p>{{ form.body.label_tag }} {{ form.body }}</p>
+  <p>{{ form.rating.label_tag }} {{ form.rating }}</p>
+
+  <button type="submit">Envoyer</button>
+</form>
