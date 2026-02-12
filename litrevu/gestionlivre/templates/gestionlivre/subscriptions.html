@@ -44,4 +44,15 @@
 {% else %}
   <p>Personne ne vous suit pour le moment.</p>
 {% endif %}
+
+<h2>Liste des utilisateurs</h2>
+{% if all_users %}
+  <ul>
+    {% for user in all_users %}
+      <li>{{ user.username }}</li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Aucun utilisateur enregistré.</p>
+{% endif %}
 {% endblock %}

@@ -183,11 +183,12 @@ def subscriptions(request):
     followers = (
         UserFollows.objects.filter(followed_user=request.user).select_related("user").order_by("user__username")
     )
+    all_users = User.objects.order_by("username")
 
     return render(
         request,
         "gestionlivre/subscriptions.html",
-        {"following": following, "followers": followers, "form": form},
+        {"following": following, "followers": followers, "all_users": all_users, "form": form},
     )
 
 

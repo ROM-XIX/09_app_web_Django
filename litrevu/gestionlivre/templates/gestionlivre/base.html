@@ -9,18 +9,19 @@
 </head>
 <body>
 
-<header>
-  <h2>LITReview</h2>
-  <nav>
-    <a href="{% url 'feed' %}">Flux</a> |
-    <a href="{% url 'posts' %}">Posts</a> |
-    <a href="{% url 'subscriptions' %}">Abonnements</a> |
-    <a href="{% url 'logout' %}">Se déconnecter</a> |
-  </nav>
-  <hr>
+<header class="site-header">
+  <div class="container header-inner">
+    <h2 class="brand-title">LITReview</h2>
+    <nav class="nav nav-links">
+      <a href="{% url 'feed' %}">Flux</a> |
+      <a href="{% url 'posts' %}">Posts</a> |
+      <a href="{% url 'subscriptions' %}">Abonnements</a> |
+      <a href="{% url 'logout' %}">Se déconnecter</a> |
+    </nav>
+  </div>
 </header>
 
-<main>
+<main class="container page-content">
   {% block content %}{% endblock %}
 </main>
 
