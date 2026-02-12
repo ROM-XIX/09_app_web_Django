@@ -1,0 +1,14 @@
+{% extends "gestionlivre/base.html" %}
+
+{% block content %}
+<h1>Supprimer un billet</h1>
+
+<p>Confirmez-vous la suppression du billet : <strong>{{ ticket.title }}</strong> ?</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Confirmer la suppression</button>
+</form>
+
+<p><a href="{% url 'posts' %}">Annuler</a></p>
+{% endblock %}

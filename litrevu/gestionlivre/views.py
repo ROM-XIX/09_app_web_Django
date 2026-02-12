@@ -24,7 +24,39 @@ def ticket_create(request):
             return redirect("feed")  # adapte si ton flux s'appelle autrement
     else:
         form = TicketForm()
-    return render(request, "gestionlivre/ticket_form.html", {"form": form})
+    return render(request, "gestionlivre/ticket_form.html", {"form": form, "mode": "create"})
+
+
+@login_required
+def ticket_update(request, ticket_id):
+    ticket = get_object_or_404(Ticket, pk=ticket_id, user=request.user)
+
+    if request.method == "POST":
+        form = TicketForm(request.POST, request.FILES, instance=ticket)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Votre billet a été modifié.")
+            return redirect("posts")
+    else:
+        form = TicketForm(instance=ticket)
+
+    return render(
+        request,
+        "gestionlivre/ticket_form.html",
+        {"form": form, "mode": "update", "ticket": ticket},
+    )
+
+
+@login_required
+def ticket_delete(request, ticket_id):
+    ticket = get_object_or_404(Ticket, pk=ticket_id, user=request.user)
+
+    if request.method == "POST":
+        ticket.delete()
+        messages.success(request, "Votre billet a été supprimé.")
+        return redirect("posts")
+
+    return render(request, "gestionlivre/ticket_confirm_delete.html", {"ticket": ticket})
 
 
 @login_required
@@ -51,6 +83,38 @@ def review_create_for_ticket(request, ticket_id):
         "gestionlivre/review_form_for_ticket.html",
         {"form": form, "ticket": ticket},
     )
+
+
+@login_required
+def review_update(request, review_id):
+    review = get_object_or_404(Review, pk=review_id, user=request.user)
+
+    if request.method == "POST":
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Votre critique a été modifiée.")
+            return redirect("posts")
+    else:
+        form = ReviewForm(instance=review)
+
+    return render(
+        request,
+        "gestionlivre/review_form.html",
+        {"form": form, "review": review},
+    )
+
+
+@login_required
+def review_delete(request, review_id):
+    review = get_object_or_404(Review, pk=review_id, user=request.user)
+
+    if request.method == "POST":
+        review.delete()
+        messages.success(request, "Votre critique a été supprimée.")
+        return redirect("posts")
+
+    return render(request, "gestionlivre/review_confirm_delete.html", {"review": review})
 
 
 @login_required

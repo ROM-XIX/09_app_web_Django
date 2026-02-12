@@ -21,4 +21,11 @@
       >Créer une critique</a
     >
   </p>
+
+  {% if ticket.user == user %}
+  <p>
+    <a href="{% url 'ticket_update' ticket.id %}">Modifier</a> |
+    <a href="{% url 'ticket_delete' ticket.id %}">Supprimer</a>
+  </p>
+  {% endif %}
 </div>

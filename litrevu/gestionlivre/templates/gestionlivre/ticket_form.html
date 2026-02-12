@@ -1,12 +1,20 @@
 {% extends "gestionlivre/base.html" %}
 
 {% block content %}
+{% if mode == "update" %}
+<h1>Modifier un billet</h1>
+{% else %}
 <h1>Créer un ticket</h1>
+{% endif %}
 
 <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
   {{ form.as_p }}
+  {% if mode == "update" %}
+  <button type="submit">Enregistrer</button>
+  {% else %}
   <button type="submit">Envoyer</button>
+  {% endif %}
 </form>
 
 {% endblock %}

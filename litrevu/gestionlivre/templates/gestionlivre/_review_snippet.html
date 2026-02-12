@@ -10,4 +10,11 @@
       <p><img src="{{ review.ticket.image.url }}" alt="image du ticket" style="max-width: 200px;"></p>
     {% endif %}
   </div>
+
+  {% if review.user == user %}
+    <p>
+      <a href="{% url 'review_update' review.id %}">Modifier</a> |
+      <a href="{% url 'review_delete' review.id %}">Supprimer</a>
+    </p>
+  {% endif %}
 </div>
