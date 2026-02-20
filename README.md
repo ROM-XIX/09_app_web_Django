@@ -2,6 +2,9 @@
 
 # LITReview - Installation et utilisation en local
 
+[![Python](https://img.shields.io/badge/Python-3.12%2B-blue?logo=python)](https://www.python.org/)
+![Django](https://img.shields.io/badge/django-5.2.3-darkgreen?logo=django)
+
 Application web Django pour publier des billets de demande de critique, écrire des critiques, et gérer des abonnements entre utilisateurs.
 
 ## Prérequis
@@ -9,9 +12,6 @@ Application web Django pour publier des billets de demande de critique, écrire 
 - Python `3.11` (ou version compatible avec Django 5.2)
 - `pip`
 - Un terminal (Linux/macOS/Windows)
-
-[![Python](https://img.shields.io/badge/Python-3.12%2B-blue?logo=python)](https://www.python.org/)
-![Django](https://img.shields.io/badge/django-5.2.3-darkgreen?logo=django)
 
 ## 1. Récupérer le projet
 
