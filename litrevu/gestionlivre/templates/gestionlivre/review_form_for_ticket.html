@@ -3,12 +3,21 @@
 {% block content %}
 <h1>Créer une critique</h1>
 
-<p><strong>Vous répondez à :</strong> {{ ticket.title }} — par {{ ticket.user }}</p>
-<p>{{ ticket.description }}</p>
+<section>
+  <h2>Ticket</h2>
+  <p><strong>{{ ticket.user.username }}</strong> — {{ ticket.time_created|date:"d/m/Y H:i" }}</p>
+  <p><strong>{{ ticket.title }}</strong></p>
+  {% if ticket.description %}<p>{{ ticket.description }}</p>{% endif %}
+  {% if ticket.image %}
+    <p><img src="{{ ticket.image.url }}" alt="image du ticket" style="max-width: 250px;"></p>
+  {% endif %}
+</section>
+
+<hr>
 
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">Envoyer</button>
+  <button type="submit">Publier</button>
 </form>
 {% endblock %}
