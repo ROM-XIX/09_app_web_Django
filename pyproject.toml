@@ -11,7 +11,7 @@ profile = "black"
 line_length = 119
 py_version = 311
 skip = [
-  ".venv",
+  ".env_p9",
   "build",
   "dist",
 ]
