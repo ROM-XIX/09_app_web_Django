@@ -227,7 +227,7 @@ def subscriptions(request):
                 messages.error(request, "Vous ne pouvez pas vous suivre vous-même.")
                 return redirect("subscriptions")
 
-            # éviter doublon (unique_together protège aussi, mais on fait propre)
+            # éviter de se réabonner à un utilisateur que l'on suis déjà.
             exists = UserFollows.objects.filter(user=request.user, followed_user=user_to_follow).exists()
             if exists:
                 messages.info(request, "Vous suivez déjà cet utilisateur.")
