@@ -4,7 +4,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("", views.home_redirect),
     path("flux/", views.feed, name="feed"),
     path("posts/", views.posts, name="posts"),
     path("abonnements/", views.subscriptions, name="subscriptions"),

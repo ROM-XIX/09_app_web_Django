@@ -11,14 +11,10 @@ On utilise le système d'authentification standard de Django.
 
 from django.contrib import messages
 from django.contrib.auth import logout
-
-# from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView  # , LogoutView
+from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect, render
 
 from .forms import SignupForm, StyledAuthenticationForm
-
-# from django.urls import reverse_lazy
 
 
 class UserLoginView(LoginView):
@@ -26,11 +22,6 @@ class UserLoginView(LoginView):
 
     template_name = "login.html"
     authentication_form = StyledAuthenticationForm
-
-
-# class UserLogoutView(LogoutView):
-#     """Déconnexion puis redirection vers la page de connexion."""
-#     next_page = reverse_lazy("login")
 
 
 def logout_view(request):

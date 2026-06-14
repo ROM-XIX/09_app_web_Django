@@ -1,5 +1,6 @@
 # venv
 .env_p9
+.venv
 
 # Python
 __pycache__/

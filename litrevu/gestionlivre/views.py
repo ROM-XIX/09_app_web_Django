@@ -180,10 +180,6 @@ def feed(request):
     return render(request, "gestionlivre/feed.html", {"posts": posts})
 
 
-def home_redirect(request):
-    return redirect("feed")
-
-
 @login_required
 def posts(request):
     """Affiche les tickets + reviews de l'utilisateur connecté (triés)."""

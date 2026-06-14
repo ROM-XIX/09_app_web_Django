@@ -1,8 +1,8 @@
 # /P_09/litrevu/authentification/urls.py
 from django.shortcuts import redirect
-from django.urls import path  # , reverse_lazy
+from django.urls import path
 
-from .views import UserLoginView, logout_view, signup  # , UserLogoutView
+from .views import UserLoginView, logout_view, signup
 
 
 def root(request):
@@ -14,7 +14,6 @@ def root(request):
 urlpatterns = [
     path("", root, name="root"),
     path("login/", UserLoginView.as_view(), name="login"),
-    # path("logout/", UserLogoutView.as_view(), name="logout"),
     path("logout/", logout_view, name="logout"),
     path("signup/", signup, name="signup"),
 ]
